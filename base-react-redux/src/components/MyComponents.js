@@ -1,5 +1,6 @@
 import React from "react";
 import UserInfo from "./UserInfo";
+import DisplayInfo from "./DisplayInfo";
 class MyComponents extends React.Component {
 
     handleClick = (event) => {
@@ -16,6 +17,8 @@ class MyComponents extends React.Component {
     }
 
     render() {
+        const MyName = "Tam"
+        const MyAge = 25
         return (
             <div>
                 {/* My name is {this.state.name} and I am from {this.state.address} , i am {this.state.age}
@@ -23,6 +26,9 @@ class MyComponents extends React.Component {
                 <button onMouseOver={(event) => { this.handleOnMouseOver(event) }}>Click me</button> */}
 
                 <UserInfo />
+                <DisplayInfo name={MyName} age={MyAge} />
+                <hr />
+                <DisplayInfo name="tam" age="24" />
             </div>
         );
     }
