@@ -1,12 +1,12 @@
 import React from "react";
-import UserInfo from "./UserInfo";
+import AddUserInfo from "./AddUserInfo";
 import DisplayInfo from "./DisplayInfo";
 class MyComponents extends React.Component {
     state = {
         listUsers: [
-            { id: 1, name: "tran co tam 1", age: "24" },
-            { id: 2, name: "tran co tam 2", age: "25" },
-            { id: 3, name: "tran co tam 3", age: "26" }
+            { id: 1, name: "tran co tam 1", age: "10" },
+            { id: 2, name: "tran co tam 2", age: "20" },
+            { id: 3, name: "tran co tam 3", age: "30" }
         ]
     }
     handleClick = (event) => {
@@ -22,6 +22,13 @@ class MyComponents extends React.Component {
         console.log("this.state.address", this.state.address)
     }
 
+    handleAddNewUser = (userObject) => {
+
+        this.setState({
+            listUsers: [userObject, ...this.state.listUsers]
+        })
+        console.log(">>>this.state.listUsers ", this.state.listUsers)
+    }
     render() {
         const MyName = "Tam"
         const MyAge = 25
@@ -31,11 +38,13 @@ class MyComponents extends React.Component {
                 <button onClick={this.handleClick}>Click me</button>
                 <button onMouseOver={(event) => { this.handleOnMouseOver(event) }}>Click me</button> */}
 
-                <UserInfo />
+                <AddUserInfo
+                    handleAddNewUser={this.handleAddNewUser} />
                 {/* <DisplayInfo name={MyName} age={MyAge} />
                 <hr />
                 <DisplayInfo name="tam" age="24" /> */}
-                <DisplayInfo listUsers={this.state.listUsers} />
+                <DisplayInfo
+                    listUsers={this.state.listUsers} />
             </div>
         );
     }
