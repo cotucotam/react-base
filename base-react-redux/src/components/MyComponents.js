@@ -29,6 +29,14 @@ class MyComponents extends React.Component {
         })
         console.log(">>>this.state.listUsers ", this.state.listUsers)
     }
+    hanleDeleteDataUser = (userId) => {
+        let listUserClone = this.state.listUsers
+        listUserClone = listUserClone.filter(item => item.id != userId)
+        this.setState({
+            listUsers: listUserClone
+        })
+    }
+
     render() {
         const MyName = "Tam"
         const MyAge = 25
@@ -44,7 +52,10 @@ class MyComponents extends React.Component {
                 <hr />
                 <DisplayInfo name="tam" age="24" /> */}
                 <DisplayInfo
-                    listUsers={this.state.listUsers} />
+                    listUsers={this.state.listUsers}
+                    hanleDeleteDataUser={this.hanleDeleteDataUser}
+                />
+
             </div>
         );
     }
