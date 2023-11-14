@@ -2,15 +2,34 @@ import React from "react";
 import './DisplayInfo.scss'
 import logo from "./../logo.svg"
 class DisplayInfo extends React.Component {
-    state = {
-        isShowListUser: true
+    constructor(props) {
+        console.log(">>>Call contructor 1")
+        super(props)
+        this.state = {
+            isShowListUser: true
+        }
+
     }
+
+
     handleShowHide = () => {
         this.setState({
             isShowListUser: !this.state.isShowListUser
         })
+
+    }
+    componentDidUpdate(preProps, preState, snapshot) {
+        console.log(">>>Call componentDidUpdate", this.props, preProps)
+        if (this.props.listUsers !== preProps.listUsers) {
+            alert("difference")
+        }
+    }
+    componentDidMount() {
+        console.log(">>>Call componentDidMount 1")
+        setTimeout(() => { document.title = "Co Tam" }, 3000)
     }
     render() {
+        console.log(">>>Call render")
         const listUsers = this.props.listUsers
         console.log("listUsers", listUsers)
         console.log("props", this.props)
