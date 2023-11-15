@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './DisplayInfo.scss'
 import logo from "./../logo.svg"
 // class DisplayInfo extends React.Component {
@@ -103,6 +103,7 @@ const DisplayInfo = (props) => {
     const hanleShowHideListUser = () => {
         setShowHideListUser(!isShowHideListUser)
     }
+    useEffect(() => { if (listUsers.length == 0) console.log("DEBUG") }, [listUsers]);
     return (
         <>
             <div className="display-info-container">
