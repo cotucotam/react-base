@@ -7,13 +7,25 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Header from './components/Header/Header';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 const App = () => {
   return (
-    <div className="App">
-      <Header />
-      <div>
+    <div className="app-container">
+      <div className='header-container'>
+        <Header />
+      </div>
+      <div className='main-container'>
+        <div className='sidenav-container'>
+
+        </div>
+        <div className='app-content'>
+          <Outlet />
+        </div>
+      </div>
+
+
+      {/* <div>
         Test Link
         <div>
           <button>
@@ -23,7 +35,7 @@ const App = () => {
             <Link to="/admin">Go to Admin</Link>
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
