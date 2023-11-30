@@ -3,10 +3,22 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FaPlus } from "react-icons/fa";
-const ModalCreateUser = () => {
-    const [show, setShow] = useState(false);
+import axios from 'axios';
+// import FormData from 'form-data';
 
-    const handleClose = () => setShow(false);
+const ModalCreateUser = (props) => {
+    const { show, setShow } = props
+    // const [show, setShow] = useState(false);
+
+    const handleClose = () => {
+        setShow(false);
+        setEmail("")
+        setPassword("")
+        setUsername("")
+        setRole("USER")
+        setImage("")
+        setPreviewImage("")
+    }
     const handleShow = () => setShow(true);
 
     const [email, setEmail] = useState("")
@@ -25,11 +37,35 @@ const ModalCreateUser = () => {
         }
 
     }
+
+    const handleSubmitCreateUser = async () => {
+        //validate
+
+        //call apis
+        // let data = {
+        //     email: email,
+        //     password: password,
+        //     username: username,
+        //     role: role,
+        //     userImage: image
+        // }
+
+
+        const data = new FormData();
+        data.append('email', email);
+        data.append('password', password);
+        data.append('username', username);
+        data.append('role', role);
+        data.append('userImage', image);
+
+        let respone = await axios.post('http://localhost:8081/api/v1/participant', data)
+        console.log("respone", respone)
+    }
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            {/* <Button variant="primary" onClick={handleShow}>
                 Add new user
-            </Button>
+            </Button> */}
 
             <Modal className='modal-add-user' show={show} onHide={handleClose} size='xl' backdrop="static">
                 <Modal.Header closeButton>
@@ -49,7 +85,7 @@ const ModalCreateUser = () => {
                         </div>
                         <div className="col-12">
                             <label className="form-label">Address</label>
-                            <input type="text" className="form-control" placeholder="1234 Main St" value={password}
+                            <input type="text" className="form-control" placeholder="1234 Main St" value={address}
                                 onChange={(event) => { setAddress(event.target.value) }} />
                         </div>
                         <div className="col-md-6">
@@ -86,7 +122,7 @@ const ModalCreateUser = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSubmitCreateUser}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
