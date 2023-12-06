@@ -3,9 +3,22 @@ import './Content/ManageUser.scss'
 import { FaPlus } from "react-icons/fa";
 import { useState } from 'react';
 import TableUser from './Content/TableUser';
+
+import { useEffect } from 'react';
+import { getAllUsers } from '../../services/apiService';
+
 const ManageUser = (props) => {
     const [showModalCreateUser, setShowModalCreateUser] = useState(false)
-
+    const [listUser, setListUser] = useState([])
+    const fetchListUser = async () => {
+        let res = await getAllUsers()
+        if (res.EC == 0) {
+            setListUser(res.DT)
+        }
+    }
+    useEffect(() => {
+        fetchListUser()
+    }, []);
     return (
         <div className='manage-user-container'>
             <div className='title'>
@@ -21,11 +34,12 @@ const ManageUser = (props) => {
                     </button>
                 </div>
                 <div className='table-user-container'>
-                    <TableUser />
+                    <TableUser listUser={listUser} />
                 </div>
                 <ModalCreateUser
                     show={showModalCreateUser}
-                    setShow={setShowModalCreateUser} />
+                    setShow={setShowModalCreateUser}
+                    fetchListUser={fetchListUser} />
             </div>
 
 

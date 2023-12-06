@@ -8,7 +8,7 @@ import { postCreateUser } from '../../../services/apiService';
 // import FormData from 'form-data';
 
 const ModalCreateUser = (props) => {
-    const { show, setShow } = props
+    const { show, setShow, fetchListUser } = props
     // const [show, setShow] = useState(false);
 
     const handleClose = () => {
@@ -72,6 +72,7 @@ const ModalCreateUser = (props) => {
         if (data.EC === 0 && data) {
             toast.success(data.EM)
             handleClose()
+            await fetchListUser()
         }
         if (data.EC !== 0 && data) {
             toast.error(data.EM)
