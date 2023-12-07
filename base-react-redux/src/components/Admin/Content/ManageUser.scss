@@ -51,4 +51,11 @@
 
         border: none;
     }
+
+    .table-user-container {
+        .user-pagination {
+            display: flex;
+            justify-content: center;
+        }
+    }
 }
