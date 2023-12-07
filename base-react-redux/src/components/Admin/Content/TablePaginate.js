@@ -8,10 +8,11 @@ const items = [...Array(33).keys()];
 
 
 const TablePaginate = (props) => {
-    const { listUser, pageCount } = props
+    const { listUser, pageCount, fetchListUserWithPaginate, setCurrentPage } = props
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
         props.fetchListUserWithPaginate(+event.selected + 1)
+        setCurrentPage(+event.selected + 1)
         console.log(`User requested page number ${event.selected}`);
     };
 
@@ -77,6 +78,7 @@ const TablePaginate = (props) => {
                     containerClassName="pagination"
                     activeClassName="active"
                     renderOnZeroPageCount={null}
+                    forcePage={props.currentPage - 1}//quay lai trang 1
                 />
             </div>
 
