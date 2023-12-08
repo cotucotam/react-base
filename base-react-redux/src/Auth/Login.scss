@@ -3,7 +3,23 @@
         height: 45px;
         text-align: right;
         border: 1px solid red;
-        text-align: center;
+        padding: 5px 100px 0px 100px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        button {
+            border: none;
+            padding: 3px 15px;
+            margin-left: 15px;
+            border-radius: 5px;
+            background: white;
+            border: 1px solid;
+
+            &:hover {
+                background: wheat;
+            }
+        }
     }
 
     .title {
@@ -36,6 +52,12 @@
             border-radius: 5px;
             color: white;
             background: black;
+        }
+
+        .back {
+            text-align: center;
+            cursor: pointer;
+            // text-decoration: underline;
         }
     }
 }

@@ -1,0 +1,33 @@
+import React from 'react';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import Users from './components/Users/Users';
+import Admin from './components/Admin/Admin';
+import Homepage from './components/Home/Homepage';
+import ManageUser from './components/Admin/ManageUser';
+import DashBoard from './components/Admin/DashBoard';
+import Login from './Auth/Login';
+import App from './App';
+const Layout = (props) => {
+    return (
+        <>
+
+            <Routes>
+                <Route path='/' element={<App />}>
+
+                    <Route index element={<Homepage />}></Route>
+                    <Route path='users' element={<Users />}></Route>
+
+                </Route>
+                <Route path='admin' element={<Admin />}>
+                    <Route index element={<DashBoard />}></Route>
+                    <Route path='manage-user' element={<ManageUser />}></Route>
+                </Route>
+                <Route path='/login' element={<Login />}></Route>
+            </Routes>
+
+
+        </>
+    );
+};
+
+export default Layout;
