@@ -7,6 +7,7 @@ import ManageUser from './components/Admin/ManageUser';
 import DashBoard from './components/Admin/DashBoard';
 import Login from './Auth/Login';
 import App from './App';
+import Register from './Auth/Register';
 const Layout = (props) => {
     return (
         <>
@@ -23,6 +24,7 @@ const Layout = (props) => {
                     <Route path='manage-user' element={<ManageUser />}></Route>
                 </Route>
                 <Route path='/login' element={<Login />}></Route>
+                <Route path='/register' element={<Register />}></Route>
             </Routes>
 
 

@@ -3,10 +3,12 @@ import "./Login.scss"
 import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../services/apiService';
 import { toast } from 'react-toastify';
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
+    const [isShowPassword, setIsShowPassword] = useState(false);
     const validateEmail = (email) => {
         return String(email)
             .toLowerCase()
@@ -55,14 +57,28 @@ const Login = () => {
                     <input type='email' className='form-control'
                         value={email}
                         onChange={(event) => { setEmail(event.target.value) }}></input>
+                </div>
+                <div className='form-group pass-group'>
                     <label>Password</label>
-                    <input type='Password' className='form-control'
+                    <input className='form-control'
+                        type={isShowPassword ? "text" : "password"}
                         value={password}
                         onChange={(event) => { setPassword(event.target.value) }}></input>
-
-
+                    {isShowPassword ?
+                        <span className="icons-eye"
+                            onClick={() => setIsShowPassword(false)}>
+                            <VscEye />
+                        </span>
+                        :
+                        <span className="icons-eye"
+                            onClick={() => setIsShowPassword(true)}>
+                            <VscEyeClosed />
+                        </span>
+                    }
                 </div>
-                <span className='forgot-password'>Foget password</span>
+                <div className='form-group'>
+                    <span className='forgot-password'>Foget password</span>
+                </div>
                 <div>
                     <button className='btn_submit'
                         onClick={handleLogin}>
