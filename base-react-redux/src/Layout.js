@@ -8,6 +8,7 @@ import DashBoard from './components/Admin/DashBoard';
 import Login from './Auth/Login';
 import App from './App';
 import Register from './Auth/Register';
+import ListQuiz from './components/Users/ListQuiz';
 const Layout = (props) => {
     return (
         <>
@@ -16,7 +17,7 @@ const Layout = (props) => {
                 <Route path='/' element={<App />}>
 
                     <Route index element={<Homepage />}></Route>
-                    <Route path='users' element={<Users />}></Route>
+                    <Route path='users' element={<ListQuiz />}></Route>
 
                 </Route>
                 <Route path='admin' element={<Admin />}>
