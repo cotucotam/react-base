@@ -4,11 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../services/apiService';
 import { toast } from 'react-toastify';
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { useDispatch } from 'react-redux';
+import { fetchUserSuccess } from '../redux/action/userAction';
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const dispatch = useDispatch()
+
     const validateEmail = (email) => {
         return String(email)
             .toLowerCase()
@@ -32,6 +36,7 @@ const Login = () => {
         console.log("res ", data)
         if (data.EC === 0 && data) {
             toast.success(data.EM)
+            dispatch(fetchUserSuccess(data))
             navigate("/")
         }
         if (+data.EC !== 0 && data) {
