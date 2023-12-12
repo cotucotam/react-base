@@ -7,6 +7,7 @@ import store from './redux/store';
 import Layout from './Layout';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'nprogress/nprogress.css'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>

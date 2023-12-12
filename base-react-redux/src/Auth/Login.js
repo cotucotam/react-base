@@ -6,11 +6,13 @@ import { toast } from 'react-toastify';
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useDispatch } from 'react-redux';
 import { fetchUserSuccess } from '../redux/action/userAction';
+import { ImSpinner10 } from 'react-icons/im'
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch()
 
     const validateEmail = (email) => {
@@ -32,15 +34,18 @@ const Login = () => {
             return
         }
         //login api
+        setIsLoading(true)
         let data = await postLogin(email, password)
         console.log("res ", data)
         if (data.EC === 0 && data) {
             toast.success(data.EM)
             dispatch(fetchUserSuccess(data))
+            setIsLoading(true)
             navigate("/")
         }
         if (+data.EC !== 0 && data) {
             toast.error(data.EM)
+            setIsLoading(false)
         }
     }
 
@@ -86,8 +91,11 @@ const Login = () => {
                 </div>
                 <div>
                     <button className='btn_submit'
-                        onClick={handleLogin}>
-                        Login to Co Tam
+                        onClick={handleLogin}
+                        disabled={isLoading}
+                    >
+                        {isLoading && <ImSpinner10 className='loaderIcon' />}
+                        <span>Login to Co Tam</span>
                     </button>
                 </div>
                 <div className='back'>
@@ -99,7 +107,7 @@ const Login = () => {
                     </span>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

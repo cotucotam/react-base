@@ -52,6 +52,12 @@
             border-radius: 5px;
             color: white;
             background: black;
+
+            &:disabled {
+                background: #dddddd;
+                color: #afafaf;
+                cursor: no-drop;
+            }
         }
 
         .back {
@@ -68,6 +74,25 @@
                 position: absolute;
                 right: 10px;
                 bottom: 10px;
+            }
+        }
+
+        .loaderIcon {
+            margin-right: 7px;
+            top: 2px;
+            animation: spin 1s infinite linear;
+
+
+        }
+
+
+        @keyframes loaderIcon {
+            from {
+                transform: scale(1) rotate(0deg);
+            }
+
+            to {
+                transform: scale(1) rotate(360deg);
             }
         }
     }
