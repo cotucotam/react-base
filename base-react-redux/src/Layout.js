@@ -9,6 +9,14 @@ import Login from './Auth/Login';
 import App from './App';
 import Register from './Auth/Register';
 import ListQuiz from './components/Users/ListQuiz';
+import DetailQuiz from './components/Users/DetailQuiz';
+const NotFound = () => {
+    return (
+        <div className='alert alert-danger container mt-3 '>
+            404 Not Found
+        </div>
+    )
+}
 const Layout = (props) => {
     return (
         <>
@@ -18,6 +26,8 @@ const Layout = (props) => {
 
                     <Route index element={<Homepage />}></Route>
                     <Route path='users' element={<ListQuiz />}></Route>
+                    <Route path='/quiz/:id' element={<DetailQuiz />}></Route>
+
 
                 </Route>
                 <Route path='admin' element={<Admin />}>
@@ -26,6 +36,7 @@ const Layout = (props) => {
                 </Route>
                 <Route path='/login' element={<Login />}></Route>
                 <Route path='/register' element={<Register />}></Route>
+                <Route path='*' element={<NotFound />}></Route>
             </Routes>
 
 
