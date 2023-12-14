@@ -1,14 +1,68 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getDataQuizId } from '../../services/apiService';
 import _ from 'lodash'
 import "./DetailQuiz.scss"
+import Question from './Question';
 
 const DetailQuiz = () => {
     const params = useParams()
     const quizId = params.id
     const location = useLocation()
-    console.log("location, ", location)
+    const [dataQuiz, setDataQuiz] = useState("")
+    const [index, setIndex] = useState(0)
+    const handlePrev = () => {
+        if (index - 1 < 0) return
+        setIndex(index - 1)
+    }
+    const handleNext = () => {
+        if (dataQuiz && dataQuiz.length > index + 1)
+            setIndex(index + 1)
+    }
+    const handleCheckbox = (answerId, questionId) => {
+        let dataQuizClone = _.cloneDeep(dataQuiz)
+        let question = dataQuizClone.find(item => +item.questionId === +questionId)
+        if (question && question.answers) {
+            let b = question.answers.map(item => {
+                if (item.id === answerId) {
+                    item.isSelected = !item.isSelected
+                }
+                return item
+            })
+            question.answers = b
+        }
+        let index = dataQuizClone.findIndex(item => +item.questionId === +questionId)
+        if (index > -1) {
+            dataQuizClone[index] = question
+            setDataQuiz(dataQuizClone)
+        }
+    }
+    const handleFinishQuiz = () => {
+        console.log("check data be4 submit", dataQuiz)
+        let payload = {
+            quizId: +quizId,
+            answers: []
+        }
+        let answers = []
+        if (dataQuiz && dataQuiz.length > 0) {
+            dataQuiz.forEach(question => {
+
+                let questionId = question.questionId
+                let userAnswerId = []
+                question.answers.forEach(a => {
+                    if (a.isSelected) {
+                        userAnswerId.push(a.id)
+                    }
+                })
+                answers.push({
+                    questionId: +questionId,
+                    userAnswerId: userAnswerId
+                })
+            })
+        }
+        payload.answers = answers
+        console.log("payload", payload)
+    }
     useEffect(() => { fetchQuestion() }, [quizId])
     const fetchQuestion = async () => {
         let res = await getDataQuizId(quizId)
@@ -16,6 +70,7 @@ const DetailQuiz = () => {
 
         if (res && res.EC === 0) {
             let raw = res.DT
+
             let data =
                 _.chain(raw)
                     // Group the elements of Array based on `color` property
@@ -25,10 +80,11 @@ const DetailQuiz = () => {
                         let answers = []
                         value.forEach((item, index) => {
                             if (index === 0) {
-                                questionDescription = item.questionDescription
+                                questionDescription = item.description
                                 image = item.image
                             }
-                            answers.push(item)
+                            item.answers.isSelected = false
+                            answers.push(item.answers)
                         })
 
 
@@ -37,7 +93,7 @@ const DetailQuiz = () => {
                     }
                     )
                     .value()
-            console.log("data", data)
+            setDataQuiz(data)
         }
     }
     return (
@@ -51,16 +107,23 @@ const DetailQuiz = () => {
                     <img />
                 </div>
                 <div className='q-content'>
-                    <div className='question'>question 1: who are you?</div>
-                    <div className='answer'>
-                        <div className='a-child'>A.tam</div>
-                        <div className='a-child'>B.tam</div>
-                        <div className='a-child'>C.tam</div>
-                    </div>
+                    <Question
+                        handleCheckbox={handleCheckbox}
+                        index={index}
+                        data={
+                            dataQuiz.length > 0 ? dataQuiz[index] : []
+                        } />
                 </div>
                 <div className='footer'>
-                    <button className='btn btn-secondary'>Privious</button>
-                    <button className='btn btn-primary'>Next</button>
+                    <button className='btn btn-secondary'
+                        onClick={() => handlePrev()}
+                    >Privious</button>
+                    <button className='btn btn-primary'
+                        onClick={() => handleNext()}
+                    >Next</button>
+                    <button className='btn btn-warning'
+                        onClick={() => handleFinishQuiz()}
+                    >Finish</button>
                 </div>
             </div>
             <div className='right-container'>
