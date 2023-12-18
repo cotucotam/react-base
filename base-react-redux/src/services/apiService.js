@@ -48,6 +48,9 @@ const getDataQuizId = (id) => {
 const postSubmitQuiz = (data) => {
     return axios.post(`v1/quiz-submit`, { ...data })
 }
+const getAllQuizForAdmin = () => {
+    return axios.get(`v1/quiz/all`)
+}
 const postCreateNewQuiz = (description, name, difficulty, quizImage) => {
     const data = new FormData();
     data.append('description', description);
@@ -61,5 +64,5 @@ export {
     postCreateUser, getAllUsers, putUpdateUser,
     deleteUsers, getUserWithPaginate, postLogin,
     postRegister, getQuizByUser, getDataQuizId,
-    postSubmitQuiz, postCreateNewQuiz
+    postSubmitQuiz, postCreateNewQuiz, getAllQuizForAdmin
 }
