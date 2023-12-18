@@ -25,6 +25,10 @@ $icon-size: 35px;
     .admin-sidebar {
         .pro-sidebar {
             height: 100vh;
+
+            span {
+                cursor: pointer;
+            }
         }
 
         .btn-toggle {

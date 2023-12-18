@@ -13,9 +13,10 @@ import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart, } fr
 import { DiReact } from "react-icons/di"
 import { MdDashboard } from "react-icons/md"
 import sidebarBg from '../../assets/bg2.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const SidebarAdmin = (props) => {
     const { image, collapsed, toggled, handleToggleSidebar } = props
+    const navigate = useNavigate()
     return (
         <>
             <ProSidebar
@@ -39,7 +40,7 @@ const SidebarAdmin = (props) => {
                         }}
                     >
                         <DiReact size={'3em'} color={"00bfff"} />
-                        CO TAM
+                        <span onClick={() => navigate("/")}>CO TAM</span>
                     </div>
                 </SidebarHeader>
 
@@ -63,7 +64,10 @@ const SidebarAdmin = (props) => {
                                 User manager
                                 <Link to="/admin/manage-user"></Link>
                             </MenuItem>
-                            <MenuItem> Quiz test manager</MenuItem>
+                            <MenuItem>
+                                Quiz test manager
+                                <Link to="/admin/manage-quiz"></Link>
+                            </MenuItem>
                             <MenuItem> Answer manager</MenuItem>
                         </SubMenu>
 
