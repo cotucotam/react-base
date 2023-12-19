@@ -14,7 +14,7 @@ const QuizTable = () => {
         console.log("res", res)
     }
     return (
-        <Table className='table table-hover table-bordered mt-5'>
+        <Table className='table table-hover table-bordered my-2'>
             <thead>
                 <tr>
                     <th>ID</th>
