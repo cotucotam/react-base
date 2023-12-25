@@ -6,6 +6,7 @@ import { AiOutlineMinusCircle, AiFillPlusSquare } from "react-icons/ai";
 import { RiImageAddFill } from "react-icons/ri";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
+import Lightbox from "react-awesome-lightbox";
 const Questions = () => {
     const options = [
         { value: 'chocolate', label: 'Chocolate' },
@@ -120,6 +121,23 @@ const Questions = () => {
             setQuestions(questionsClone)
         }
     }
+    const [isPreviewImage, setIsPreviewImage] = useState(false)
+    const [dataImagePreview, setDataImagePreview] = useState({
+        title: '',
+        url: ''
+    })
+    const hanlePreviewImage = (questionId) => {
+        let questionsClone = _.cloneDeep(questions)
+        let index = questionsClone.findIndex(item => item.id === questionId)
+        if (index > -1) {
+            setDataImagePreview({
+                title: questionsClone[index].imageName,
+                url: URL.createObjectURL(questionsClone[index].imageFile)
+            })
+            setIsPreviewImage(true)
+        }
+
+    }
     const handleSubmitQuestionForQuiz = () => {
 
     }
@@ -165,7 +183,16 @@ const Questions = () => {
                                         <input type={'file'} hidden
                                             id={`${question.id}`}
                                             onChange={(event) => handleOnChangeFileQuestion(question.id, event)} />
-                                        <span>{question.imageName ? question.imageName : '0 file is uploaded'}</span>
+                                        <span>
+                                            {question.imageName ?
+                                                <span
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => hanlePreviewImage(question.id)}>
+                                                    {question.imageName}
+                                                </span> :
+                                                '0 file is uploaded'
+                                            }
+                                        </span>
                                     </div>
                                     <div className='btn-add'>
                                         <span>
@@ -214,7 +241,9 @@ const Questions = () => {
 
                                             </div>
                                         )
-                                    })}
+                                    })
+                                }
+
 
                             </div>
 
@@ -232,6 +261,15 @@ const Questions = () => {
                 }
 
             </div>
+            {isPreviewImage === true &&
+                <Lightbox
+                    image={dataImagePreview.url}
+                    title={dataImagePreview.title}
+                    onClose={() => setIsPreviewImage(false)}>
+
+                </Lightbox>
+            }
+
         </div>
     );
 };
