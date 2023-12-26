@@ -211,26 +211,33 @@ const Questions = () => {
             toast.error(`Not empty description for question ${indexQ1 + 1}`)
             return
         }
-        toast.success('Create questions and answers succed')
-        setQuestions(initQuestions)
 
-        return
         //submit questions
         for (const question of questions) {
             const q = await postCreatMewQuestionForQuiz(
                 +selectedQuiz.value,
                 question.description,
                 question.imageFile);
+
+            if (q.EC !== 0 && q) {
+                toast.error(q.EM)
+                break
+            }
             //submit answer
             for (const answer of question.answers) {
                 const a = await postCreatMewAnswerForQuestion(
                     answer.description,
                     answer.isCorrect,
                     q.DT.id)
+                if (a.EC !== 0 && a) {
+                    toast.error(a.EM)
+                    break
+                }
             }
         }
 
-
+        toast.success('Create questions and answers success')
+        setQuestions(initQuestions)
         // 
     }
     return (
