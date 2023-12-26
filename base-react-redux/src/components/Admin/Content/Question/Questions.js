@@ -8,7 +8,29 @@ import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
 import Lightbox from "react-awesome-lightbox";
 import { getAllQuizForAdmin, postCreatMewAnswerForQuestion, postCreatMewQuestionForQuiz } from '../../../../services/apiService';
+import { toast } from 'react-toastify';
 const Questions = () => {
+    const initQuestions = [
+        {
+            id: uuidv4(),
+            description: 'question 1',
+            imageName: '',
+            imageFile: '',
+            answers: [
+                {
+                    id: uuidv4(),
+                    description: 'answer 1',
+                    isCorrect: false
+                },
+                {
+                    id: uuidv4(),
+                    description: 'answer 2',
+                    isCorrect: false
+                }
+            ]
+        },
+    ]
+    const [questions, setQuestions] = useState(initQuestions)
     const [listQuiz, setListQuiz] = useState({})
     useEffect(() => {
         fetchQuiz()
@@ -28,26 +50,7 @@ const Questions = () => {
 
 
     }
-    const [questions, setQuestions] = useState([
-        {
-            id: uuidv4(),
-            description: 'question 1',
-            imageName: '',
-            imageFile: '',
-            answers: [
-                {
-                    id: uuidv4(),
-                    description: 'answer 1',
-                    isCorrect: false
-                },
-                {
-                    id: uuidv4(),
-                    description: 'answer 2',
-                    isCorrect: false
-                }
-            ]
-        },
-    ])
+
     const handleAddRemoveQuestion = (type, id) => {
 
         if (type === 'ADD') {
@@ -156,22 +159,76 @@ const Questions = () => {
     const [selectedQuiz, setSelectedQuiz] = useState({})
     const handleSubmitQuestionForQuiz = async () => {
         //submit questions
-        await Promise.all(
-            questions.map(async (question) => {
-                const q = await postCreatMewQuestionForQuiz(
-                    +selectedQuiz.value,
-                    question.description,
-                    question.imageFile);
-                //submit answer
-                await Promise.all(question.answers.map(async (answer) => {
-                    await postCreatMewAnswerForQuestion(
-                        answer.description,
-                        answer.isCorrect,
-                        q.DT.id)
-                }))
-            })
-        )
+        // await Promise.all(
+        //     questions.map(async (question) => {
+        //         const q = await postCreatMewQuestionForQuiz(
+        //             +selectedQuiz.value,
+        //             question.description,
+        //             question.imageFile);
+        //         //submit answer
+        //         await Promise.all(question.answers.map(async (answer) => {
+        //             await postCreatMewAnswerForQuestion(
+        //                 answer.description,
+        //                 answer.isCorrect,
+        //                 q.DT.id)
+        //         }))
+        //     })
+        // )
 
+        //validate data
+        if (_.isEmpty(selectedQuiz)) {
+            toast.error("Please choose a Quiz")
+            return
+        }
+        //validate answer
+        let isValidAnswer = true
+        let indexQ = 0, indexA = 0
+        for (let i = 0; i < questions.length; i++) {
+            for (let j = 0; j < questions[i].answers.length; j++) {
+                if (!questions[i].answers[j].description) {
+                    isValidAnswer = false
+                    indexA = j
+                    break
+                }
+            }
+            indexQ = i
+            if (isValidAnswer === false) break
+        }
+
+        if (isValidAnswer === false) {
+            toast.error(`Not empty Answer ${indexA + 1} at Question ${indexQ + 1}`)
+        }
+        //validate question
+        let isValidQ = true
+        let indexQ1 = 0
+        for (let i = 0; i < questions.length; i++) {
+            if (!questions[i].description) {
+                isValidQ = false
+                indexQ1 = i
+            }
+        }
+        if (isValidQ === false) {
+            toast.error(`Not empty description for question ${indexQ1 + 1}`)
+            return
+        }
+        toast.success('Create questions and answers succed')
+        setQuestions(initQuestions)
+
+        return
+        //submit questions
+        for (const question of questions) {
+            const q = await postCreatMewQuestionForQuiz(
+                +selectedQuiz.value,
+                question.description,
+                question.imageFile);
+            //submit answer
+            for (const answer of question.answers) {
+                const a = await postCreatMewAnswerForQuestion(
+                    answer.description,
+                    answer.isCorrect,
+                    q.DT.id)
+            }
+        }
 
 
         // 
