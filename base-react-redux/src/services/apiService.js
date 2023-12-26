@@ -74,10 +74,22 @@ const deleteQuizForAdmin = (id) => {
 
     return axios.delete(`v1/quiz/${id}`)
 }
+const postCreatMewQuestionForQuiz = (quiz_id, description, questionImage) => {
+    const data = new FormData();
+    data.append('quiz_id', quiz_id);
+    data.append('description', description);
+    data.append('questionImage', questionImage);
+
+    return axios.post('v1/question', data)
+}
+const postCreatMewAnswerForQuestion = (description, correct_answer, question_id) => {
+    return axios.post('v1/answer', { description, correct_answer, question_id, })
+}
 export {
     postCreateUser, getAllUsers, putUpdateUser,
     deleteUsers, getUserWithPaginate, postLogin,
     postRegister, getQuizByUser, getDataQuizId,
     postSubmitQuiz, postCreateNewQuiz,
-    getAllQuizForAdmin, deleteQuizForAdmin, putUpdateQuizForAdmin
+    getAllQuizForAdmin, deleteQuizForAdmin, putUpdateQuizForAdmin,
+    postCreatMewQuestionForQuiz, postCreatMewAnswerForQuestion
 }

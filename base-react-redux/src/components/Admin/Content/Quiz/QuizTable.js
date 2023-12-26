@@ -28,7 +28,6 @@ const QuizTable = () => {
         if (res && res.EC === 0) {
             setListQuiz(res.DT)
         }
-        console.log("res", res)
     }
     return (
         <>
