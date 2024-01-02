@@ -7,7 +7,7 @@ import { RiImageAddFill } from "react-icons/ri";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
 import Lightbox from "react-awesome-lightbox";
-import { getAllQuizForAdmin, postCreatMewAnswerForQuestion, postCreatMewQuestionForQuiz, getQuizWithQA } from '../../../../services/apiService';
+import { getAllQuizForAdmin, postCreatMewAnswerForQuestion, postCreatMewQuestionForQuiz, getQuizWithQA, postUpsetQA } from '../../../../services/apiService';
 import { toast } from 'react-toastify';
 const QuizQA = () => {
     const [selectedQuiz, setSelectedQuiz] = useState({})
@@ -71,8 +71,8 @@ const QuizQA = () => {
                 newQA.push(q)
             }
             setQuestions(newQA)
-            console.log("DEBUG newQA", newQA)
-            console.log("DEBUG fetchQuizWithQA", res)
+            // console.log("DEBUG newQA", newQA)
+            // console.log("DEBUG fetchQuizWithQA", res)
         }
     }
     useEffect(() => {
@@ -257,33 +257,34 @@ const QuizQA = () => {
         }
 
         //submit questions
-        for (const question of questions) {
-            const q = await postCreatMewQuestionForQuiz(
-                +selectedQuiz.value,
-                question.description,
-                question.imageFile);
+        let questionClone = _.cloneDeep(questions)
 
-            if (q.EC !== 0 && q) {
-                toast.error(q.EM)
-                break
-            }
-            //submit answer
-            for (const answer of question.answers) {
-                const a = await postCreatMewAnswerForQuestion(
-                    answer.description,
-                    answer.isCorrect,
-                    q.DT.id)
-                if (a.EC !== 0 && a) {
-                    toast.error(a.EM)
-                    break
-                }
+        for (let i = 0; i < questionClone.length; i++) {
+            if (questionClone[i].imageFile) {
+                questionClone[i].imageFile =
+                    await toBase64(questionClone[i].imageFile)
             }
         }
+        let res = await postUpsetQA({
+            quizId: selectedQuiz.value,
+            questions: questionClone
+        })
+        if (res.EC !== 0 && res) {
+            toast.error(res.EM)
 
-        toast.success('Create questions and answers success')
-        setQuestions(initQuestions)
-        // 
+        }
+        else {
+            toast.success('Create questions and answers success')
+        }
+        console.log("res: ", res)
+
     }
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
     return (
         <div className='questions-container'>
             <div className='add-new-questions'>
