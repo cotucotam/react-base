@@ -85,11 +85,18 @@ const postCreatMewQuestionForQuiz = (quiz_id, description, questionImage) => {
 const postCreatMewAnswerForQuestion = (description, correct_answer, question_id) => {
     return axios.post('v1/answer', { description, correct_answer, question_id, })
 }
+const postAssignQuiz = (quizId, userId) => {
+    return axios.post('v1/quiz-assign-to-user', { quizId, userId })
+}
+const getQuizWithQA = (quizId) => {
+    return axios.get(`v1/quiz-with-qa/${quizId}`)
+}
 export {
     postCreateUser, getAllUsers, putUpdateUser,
     deleteUsers, getUserWithPaginate, postLogin,
     postRegister, getQuizByUser, getDataQuizId,
     postSubmitQuiz, postCreateNewQuiz,
     getAllQuizForAdmin, deleteQuizForAdmin, putUpdateQuizForAdmin,
-    postCreatMewQuestionForQuiz, postCreatMewAnswerForQuestion
+    postCreatMewQuestionForQuiz, postCreatMewAnswerForQuestion,
+    postAssignQuiz, getQuizWithQA
 }
