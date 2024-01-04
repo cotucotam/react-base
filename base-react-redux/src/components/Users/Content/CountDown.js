@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const CountDown = (props) => {
     const { onTimeUp } = props
-    const [count, setCount] = useState(5)// 5 minutes
+    const [count, setCount] = useState(300)// 5 minutes
     const toHHMMSS = (secs) => {
         const sec_num = parseInt(secs, 10)
         const hours = Math.floor(sec_num / 3600)
