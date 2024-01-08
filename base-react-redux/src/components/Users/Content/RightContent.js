@@ -42,7 +42,7 @@ const RightContent = (props) => {
         }
 
         refDiv.current[index].className = "question clicked"
-        setIndex(index)
+
     }
     return (
         <>
