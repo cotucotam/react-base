@@ -48,7 +48,11 @@ const Login = () => {
             setIsLoading(false)
         }
     }
-
+    const hanleKeyDown = (event) => {
+        if (event && event.key === 'Enter') {
+            handleLogin()
+        }
+    }
     return (
         <div className='login-container'>
             <div className='header'>
@@ -73,7 +77,9 @@ const Login = () => {
                     <input className='form-control'
                         type={isShowPassword ? "text" : "password"}
                         value={password}
-                        onChange={(event) => { setPassword(event.target.value) }}></input>
+                        onChange={(event) => { setPassword(event.target.value) }}
+                        onKeyDown={(event) => hanleKeyDown(event)}
+                    ></input>
                     {isShowPassword ?
                         <span className="icons-eye"
                             onClick={() => setIsShowPassword(false)}>
