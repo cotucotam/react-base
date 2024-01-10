@@ -7,6 +7,7 @@ import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useDispatch } from 'react-redux';
 import { fetchUserSuccess } from '../redux/action/userAction';
 import { ImSpinner10 } from 'react-icons/im'
+import Language from '../components/Header/Language';
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -57,7 +58,8 @@ const Login = () => {
         <div className='login-container'>
             <div className='header'>
                 <span>Don't have an account yet?</span>
-                <button>Sign up</button>
+                <button onClick={() => navigate('/register')}>Sign up</button>
+                <Language />
             </div>
             <div className='title col-4 mx-auto'>
                 Co Tam

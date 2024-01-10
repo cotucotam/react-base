@@ -113,3 +113,9 @@ video {
   left: 200px;
   width: 100vw;
 }
+
+.languages {
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+}
