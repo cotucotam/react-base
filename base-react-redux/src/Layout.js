@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Users from './components/Users/Users';
 import Admin from './components/Admin/Admin';
@@ -13,6 +13,7 @@ import DetailQuiz from './components/Users/DetailQuiz';
 import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz';
 import Questions from './components/Admin/Content/Question/Questions';
 import PrivateRoute from './routes/PrivateRoute';
+
 const NotFound = () => {
     return (
         <div className='alert alert-danger container mt-3 '>
@@ -22,7 +23,7 @@ const NotFound = () => {
 }
 const Layout = (props) => {
     return (
-        <>
+        <Suspense fallback={<div>Loading...</div>}>
 
             <Routes>
                 <Route path='/' element={<App />}>
@@ -55,7 +56,7 @@ const Layout = (props) => {
             </Routes>
 
 
-        </>
+        </Suspense>
     );
 };
 

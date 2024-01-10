@@ -2,9 +2,11 @@ import React from 'react';
 import videoHomePage from "../../assets/homepage.mp4"
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 const Homepage = () => {
     const navigate = useNavigate()
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+    const { t, i18n } = useTranslation()
     // const account = useSelector(state => state.user.account)
     return (
         <div className='homepage-container'>
@@ -14,13 +16,21 @@ const Homepage = () => {
                     type="video/mp4" />
             </video>
             <div className="homepage-content">
-                <div className='title-1'>Here's a better way to ask</div>
-                <div className='title-2'>You don't answer one. Create a typeform instead-and make everyone happe</div>
+                <div className='title-1'>
+                    {t('homepage.title1')}
+                </div>
+                <div className='title-2'>
+                    {t('homepage.title2')}
+                </div>
                 <div className='title-3'>
                     {isAuthenticated === false ?
-                        <button onClick={() => { navigate('/login') }}>Get 's started.It's free</button>
+                        <button onClick={() => { navigate('/login') }}>
+                            {t('homepage.title3.login')}
+                        </button>
                         :
-                        <button onClick={() => { navigate('/users') }}>Doing Quiz Now</button>}
+                        <button onClick={() => { navigate('/users') }}>
+                            {t('homepage.title3.users')}
+                        </button>}
 
                 </div>
             </div>
