@@ -100,6 +100,9 @@ const postUpsetQA = (data) => {
 const logout = (email, refresh_token) => {
     return axios.post('v1/logout', { email, refresh_token })
 }
+const geOverview = () => {
+    return axios.get(`v1/overview`)
+}
 export {
     postCreateUser, getAllUsers, putUpdateUser,
     deleteUsers, getUserWithPaginate, postLogin,
@@ -108,5 +111,5 @@ export {
     getAllQuizForAdmin, deleteQuizForAdmin, putUpdateQuizForAdmin,
     postCreatMewQuestionForQuiz, postCreatMewAnswerForQuestion,
     postAssignQuiz, getQuizWithQA, postUpsetQA,
-    logout
+    logout, geOverview
 }
